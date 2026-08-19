@@ -1,13 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/dm-sans";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-heading: 'Space Grotesk Variable', 'Arial Narrow', sans-serif;
+    --font-sans: 'DM Sans Variable', Arial, sans-serif;
+    --animate-float: mock-float 8s ease-in-out infinite;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,82 +52,170 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    /* Nodai Studio brand palette — sourced 1:1 from the reference page */
+    --surface: #121418;
+    --surface-2: #191c21;
+    --line: #2a2e31;
+
+    --background: #0a0b0d;
+    --foreground: #f4f5ef;
+    --card: var(--surface);
+    --card-foreground: var(--foreground);
+    --popover: var(--surface);
+    --popover-foreground: var(--foreground);
+    --primary: #d7ff4f;
+    --primary-foreground: var(--background);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--foreground);
+    --muted: var(--surface);
+    --muted-foreground: #9a9f9a;
+    --accent: var(--surface-2);
+    --accent-foreground: var(--foreground);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
+    --border: var(--line);
+    --input: var(--line);
+    --ring: var(--primary);
+    --chart-1: var(--primary);
+    --chart-2: #9a9f9a;
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --radius: 1.125rem;
+    --sidebar: var(--surface);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--background);
+    --sidebar-accent: var(--surface-2);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--primary);
+
+    /*
+      One-off decorative tokens — each backs exactly one bespoke marketing
+      element (the hero device mockup, the project-card art, hover accents)
+      and isn't part of the reusable semantic palette above. Kept here, the
+      single designated color file, instead of inline in component markup.
+    */
+    --mock-chrome-from: #22272a;
+    --mock-chrome-to: #0f1114;
+    --mock-border: #464e4b;
+    --mock-text: #89918a;
+    --mock-dot: #616a63;
+    --mock-line: #343b38;
+    --mock-canvas: #151919;
+    --mock-rail: #29302b;
+    --orbit-ring: #3c4534;
+    --orb-ring: #66734e;
+    --hover-benefit: #68754c;
+    --hover-project: #65744a;
+    --art-bg: #171a1f;
+    --art-ring: #596348;
+    --art-gradient-mid: #62743b;
+    --art-gradient-end: #20251f;
+    --meta-dim: #676d69;
+    --legal-dim: #656b68;
+
+    /*
+      Fixed "light text on a dark surface" — for the hero device mockup only,
+      which stays dark in either theme. Deliberately NOT overridden by .light,
+      unlike --foreground. ("How we build" used to have the same treatment;
+      it's theme-adaptive now, so its counterparts were removed here.)
+    */
+    --on-dark-fg: #f4f5ef;
+
+    /*
+      Composite tokens — shadow/gradient/translucency recipes built from the
+      tokens above. Defined once here (the single color file) so components
+      never inline a color-mix()/rgb() literal in a className; each resolves
+      var(--primary)/var(--background) live, so no per-theme duplication.
+    */
+    --header-bg: color-mix(in srgb, var(--background) 95%, transparent);
+    --shadow-btn-sm: 0 10px 22px color-mix(in srgb, var(--primary) 13%, transparent);
+    --shadow-btn-lg: 0 12px 25px color-mix(in srgb, var(--primary) 15%, transparent);
+    --shadow-mock: 28px 35px 70px rgb(0 0 0 / 0.73);
+    --shadow-orb-inset: inset 0 0 70px color-mix(in srgb, var(--primary) 7%, transparent);
+    --shadow-glow-primary: 0 0 24px var(--primary);
+    --mock-gradient: linear-gradient(140deg, var(--mock-chrome-from), var(--mock-chrome-to) 70%);
+    --mock-rail-pattern: repeating-linear-gradient(180deg, transparent 0 34px, var(--mock-rail) 35px 36px);
 }
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+/*
+  Light theme — an opt-in override of the semantic tokens above, toggled via
+  the `.light` class (default, class-less state is the dark brand theme).
+  The one-off decorative tokens (mock UI chrome, project-card art) are left
+  unchanged: they render an intentionally dark device/app surface in both
+  themes, the same way a dark dashboard screenshot would stay dark inside a
+  light-themed marketing page.
+*/
+.light {
+    --surface: #ffffff;
+    --surface-2: #ecece4;
+    --line: #dbded2;
+
+    --background: #f7f8f3;
+    --foreground: #10120e;
+    --card: var(--surface);
+    --card-foreground: var(--foreground);
+    --popover: var(--surface);
+    --popover-foreground: var(--foreground);
+    --primary: #5b7a12;
+    --primary-foreground: #f7f8f3;
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--foreground);
+    --muted: #eff1e9;
+    --muted-foreground: #63685d;
+    --accent: var(--surface-2);
+    --accent-foreground: var(--foreground);
+    --border: var(--line);
+    --input: var(--line);
+    --ring: var(--primary);
+    --sidebar: var(--surface);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--surface-2);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--primary);
+}
+
+@keyframes mock-float {
+  0%,
+  100% {
+    transform: rotate(7deg) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotate(5deg) translate3d(0, -12px, 0);
+  }
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
-    }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
     }
+  body {
+    @apply bg-background text-foreground antialiased;
+    }
+  a, button {
+    outline-offset: 4px;
+    }
+  a:focus-visible {
+    outline: 2px solid var(--primary);
+    }
+  ::selection {
+    background: var(--primary);
+    color: var(--background);
+    }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+      }
+    *, *::before, *::after {
+      transition: none !important;
+      animation: none !important;
+      }
+  }
 }

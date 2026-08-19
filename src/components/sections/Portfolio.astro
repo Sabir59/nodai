@@ -1,0 +1,77 @@
+---
+import ProjectCard from "./ProjectCard.astro"
+
+interface Project {
+  number: string
+  category: string
+  year: string
+  title: string
+  description: string
+  ctaHref: string
+  ctaLabel: string
+}
+
+interface Props {
+  eyebrow?: string
+  heading?: string
+  description?: string
+  items?: Project[]
+}
+
+const {
+  eyebrow = "Selected platforms",
+  heading = "Fintech platforms<br />built to perform.",
+  description = "Financial software shipped for banks, fintechs, and investment firms moving capital every day.",
+  items = [
+    {
+      number: "01 / 03",
+      category: "Core banking",
+      year: "2025",
+      title: "Northstar",
+      description: "A sharper core banking operating system for a global neobank.",
+      ctaHref: "#contact",
+      ctaLabel: "View case study →",
+    },
+    {
+      number: "02 / 03",
+      category: "Payments infrastructure",
+      year: "2024",
+      title: "Meridian",
+      description: "A resilient cross-border payments platform built for a scaling fintech.",
+      ctaHref: "#contact",
+      ctaLabel: "View case study →",
+    },
+    {
+      number: "03 / 03",
+      category: "Trading + settlement",
+      year: "2024",
+      title: "Trade / Settle",
+      description: "A real-time trading and settlement experience built for active investors.",
+      ctaHref: "#contact",
+      ctaLabel: "View case study →",
+    },
+  ],
+} = Astro.props
+---
+
+<section id="work" class="border-b border-border bg-background px-[5vw] py-28 max-[760px]:py-22.5">
+  <div class="mx-auto max-w-310">
+    <div class="mb-12 flex items-end justify-between gap-7.5 max-[760px]:block">
+      <div>
+        <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+        <h2 class="work-title mt-3.75 text-foreground" set:html={heading} />
+      </div>
+      <p class="max-w-72.5 text-sm leading-[1.55] text-muted-foreground max-[760px]:mt-5.5">{description}</p>
+    </div>
+    <div class="grid grid-cols-3 gap-3.5 max-[760px]:grid-cols-1">
+      {items.map((item) => <ProjectCard {...item} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .work-title {
+    font: 500 clamp(34px, 5vw, 64px) / 0.96 var(--font-heading);
+    letter-spacing: -0.07em;
+  }
+</style>

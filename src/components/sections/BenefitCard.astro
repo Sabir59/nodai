@@ -1,0 +1,23 @@
+---
+interface Props {
+  number: string
+  title: string
+  description: string
+  meta: string
+}
+
+const { number, title, description, meta } = Astro.props
+---
+
+<article
+  class="flex min-h-61.25 flex-col justify-between rounded-lg border border-border bg-background px-7 pt-7.5 pb-8.5 transition duration-250 hover:-translate-y-1.25 hover:border-(--hover-benefit)"
+>
+  <div>
+    <div class="font-heading text-sm font-medium text-primary">{number}</div>
+    <h3 class="mt-5.5 mb-3 font-heading text-[26px] leading-[1.05] font-medium tracking-[-0.04em] text-foreground">
+      {title}
+    </h3>
+    <p class="text-sm leading-normal text-muted-foreground">{description}</p>
+  </div>
+  <div class="text-[11px] tracking-[0.12em] text-(--meta-dim) uppercase">{meta}</div>
+</article>

@@ -1,0 +1,55 @@
+---
+import { ThemeToggle } from "@/components/ThemeToggle"
+
+interface Props {
+  brandHref?: string
+  brandName?: string
+  navOneHref?: string
+  navOneLabel?: string
+  navTwoHref?: string
+  navTwoLabel?: string
+  ctaHref?: string
+  ctaLabel?: string
+}
+
+const {
+  brandHref = "/",
+  brandName = "NODAI STUDIO",
+  navOneHref = "#work",
+  navOneLabel = "Platforms",
+  navTwoHref = "#benefits",
+  navTwoLabel = "Capabilities",
+  ctaHref = "#apply",
+  ctaLabel = "Start a build",
+} = Astro.props
+---
+
+<header
+  class="sticky top-0 z-20 border-b border-border bg-(--header-bg) px-[5vw] py-5.5 backdrop-blur-[14px] transition-colors"
+>
+  <div class="mx-auto flex max-w-310 items-center justify-between gap-7">
+    <a href={brandHref} class="flex items-center gap-2.5 font-heading text-sm font-bold tracking-[0.14em] no-underline">
+      <span class="header-mark size-6 bg-primary" aria-hidden="true"></span>
+      <span>{brandName}</span>
+    </a>
+    <nav class="flex gap-7 text-[13px] text-muted-foreground max-[650px]:hidden">
+      <a href={navOneHref} class="no-underline transition-colors hover:text-foreground">{navOneLabel}</a>
+      <a href={navTwoHref} class="no-underline transition-colors hover:text-foreground">{navTwoLabel}</a>
+    </nav>
+    <div class="flex items-center gap-3.5">
+      <ThemeToggle client:load />
+      <a
+        href={ctaHref}
+        class="rounded-full bg-primary px-4.5 py-2.75 font-heading text-[13px] font-bold text-primary-foreground no-underline transition-all duration-250 ease-out hover:-translate-y-0.5 hover:shadow-(--shadow-btn-sm)"
+      >
+        {ctaLabel}
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header-mark {
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  }
+</style>

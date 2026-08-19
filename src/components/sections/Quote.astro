@@ -1,0 +1,32 @@
+---
+interface Props {
+  quote?: string
+  attribution?: string
+  signal?: string
+}
+
+const {
+  quote = "They did not just build software. They built the financial infrastructure our entire platform runs on.",
+  attribution = "Ari P. · Chief Technology Officer, Northstar",
+  signal = "Client story",
+} = Astro.props
+---
+
+<section class="mx-auto max-w-310 border-b border-border px-[5vw] py-30">
+  <div class="font-heading text-5xl font-medium text-primary">&ldquo;</div>
+  <blockquote class="quote-text mt-4.5 mb-9.5 max-w-230 text-foreground">{quote}</blockquote>
+  <div class="flex items-center gap-3.5 text-sm text-muted-foreground">
+    <span class="size-2.25 rounded-full bg-primary"></span>
+    <span>{attribution}</span>
+    <span class="ml-auto font-heading text-[11px] font-bold tracking-[0.12em] text-primary uppercase max-[600px]:hidden">
+      {signal}
+    </span>
+  </div>
+</section>
+
+<style>
+  .quote-text {
+    font: 500 clamp(30px, 4.4vw, 59px) / 1.06 var(--font-heading);
+    letter-spacing: -0.06em;
+  }
+</style>

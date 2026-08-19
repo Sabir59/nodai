@@ -1,0 +1,54 @@
+---
+import StepCard from "./StepCard.astro"
+
+interface Step {
+  number: string
+  title: string
+  description: string
+}
+
+interface Props {
+  eyebrow?: string
+  heading?: string
+  items?: Step[]
+}
+
+const {
+  eyebrow = "How we build",
+  heading = "From architecture to audit-ready launch.",
+  items = [
+    {
+      number: "01 / 03",
+      title: "Assess",
+      description: "We map your regulatory requirements, data flows, and integration points before writing a line of code.",
+    },
+    {
+      number: "02 / 03",
+      title: "Architect",
+      description: "Core banking, payments, and ledger architecture designed for security, auditability, and scale.",
+    },
+    {
+      number: "03 / 03",
+      title: "Build + launch",
+      description: "We ship production-grade fintech software, then test, harden, and support it through every compliance cycle.",
+    },
+  ],
+} = Astro.props
+---
+
+<section id="how-it-works" class="bg-card px-[5vw] py-25">
+  <div class="mx-auto max-w-310">
+    <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+    <h2 class="steps-title mt-3.75 mb-12 text-foreground">{heading}</h2>
+  </div>
+  <div class="mx-auto grid max-w-310 grid-cols-3 gap-0 border-t border-border max-[760px]:grid-cols-1">
+    {items.map((item) => <StepCard {...item} />)}
+  </div>
+</section>
+
+<style>
+  .steps-title {
+    font: 500 clamp(34px, 5vw, 64px) / 1 var(--font-heading);
+    letter-spacing: -0.07em;
+  }
+</style>

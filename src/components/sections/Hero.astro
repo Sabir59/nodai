@@ -1,0 +1,114 @@
+---
+interface Props {
+  eyebrow?: string
+  heading?: string
+  description?: string
+  primaryCtaHref?: string
+  primaryCtaLabel?: string
+  secondaryCtaHref?: string
+  secondaryCtaLabel?: string
+}
+
+const {
+  eyebrow = "Payments × banking × capital markets",
+  heading = "Financial software people trust.",
+  description = "We design and build fintech software — payments, core banking, wallets, and trading platforms — where security, compliance, and performance meet exceptional engineering.",
+  primaryCtaHref = "#apply",
+  primaryCtaLabel = "Start a build",
+  secondaryCtaHref = "#work",
+  secondaryCtaLabel = "View our platforms",
+} = Astro.props
+---
+
+<main
+  class="mx-auto grid max-w-310 grid-cols-[1.02fr_0.98fr] items-center gap-17.5 overflow-hidden px-[5vw] pt-27 pb-32.5 max-[820px]:grid-cols-1 max-[820px]:pt-19"
+>
+  <div>
+    <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+    <h1
+      data-reveal
+      class="hero-title max-w-175 pt-5.5 pb-7 tracking-[-0.075em] text-foreground opacity-0 translate-y-5.5 transition duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+    >
+      {heading}
+    </h1>
+    <p
+      data-reveal
+      class="max-w-120 text-lg leading-[1.55] text-muted-foreground opacity-0 translate-y-5.5 transition-[opacity,transform] delay-100 duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+    >
+      {description}
+    </p>
+    <div
+      data-reveal
+      class="mt-9 flex items-center gap-5.5 opacity-0 translate-y-5.5 transition-[opacity,transform] delay-200 duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+    >
+      <a
+        href={primaryCtaHref}
+        class="rounded-full bg-primary px-5.5 py-3.75 font-heading text-sm font-bold text-primary-foreground no-underline transition-all duration-250 hover:-translate-y-0.75 hover:shadow-(--shadow-btn-lg)"
+      >
+        {primaryCtaLabel}
+      </a>
+      <a href={secondaryCtaHref} class="text-sm text-foreground underline-offset-[5px]">{secondaryCtaLabel}</a>
+    </div>
+  </div>
+
+  <div
+    class="relative grid min-h-107.5 place-items-center perspective-distant max-[820px]:min-h-87.5"
+    aria-label="Interactive studio interface"
+  >
+    <div
+      class="absolute h-[58%] w-[120%] rotate-[-28deg] rounded-full border border-(--orbit-ring) transition-transform duration-350 ease-out after:absolute after:top-[10%] after:right-[18%] after:size-2 after:rounded-full after:bg-primary after:shadow-(--shadow-glow-primary) after:content-['']"
+    >
+    </div>
+    <div
+      class="relative z-10 aspect-[1.2] w-[min(450px,92%)] animate-float overflow-hidden rounded-[22px] border border-(--mock-border) bg-(--mock-gradient) p-4.5 shadow-(--shadow-mock) motion-reduce:animate-none motion-reduce:rotate-[7deg]"
+    >
+      <div class="flex items-center justify-between font-heading text-[9px] font-bold tracking-[0.12em] text-(--mock-text)">
+        <span class="flex gap-1.25 [&>i:first-child]:bg-primary">
+          <i class="block size-1.5 rounded-full bg-(--mock-dot)"></i>
+          <i class="block size-1.5 rounded-full bg-(--mock-dot)"></i>
+          <i class="block size-1.5 rounded-full bg-(--mock-dot)"></i>
+        </span>
+        <span>NODAI / 01</span>
+      </div>
+      <div class="relative my-4 h-[78%] overflow-hidden border border-(--mock-line) bg-(--mock-canvas)">
+        <div
+          class="absolute inset-y-0 left-0 w-[18%] border-r border-(--mock-line) bg-(--mock-rail-pattern)"
+        >
+        </div>
+        <div class="absolute top-[16%] left-[26%] z-2">
+          <span class="mb-4 block font-heading text-[9px] font-bold tracking-[0.14em] text-primary">PAYMENTS / CORE</span>
+          <strong class="hero-mock-title text-(--on-dark-fg)">Move<br />money<br />safely.</strong>
+          <div class="mt-6.5 h-1 w-30 bg-primary"></div>
+        </div>
+        <div
+          class="absolute -right-8 -bottom-17 size-52.5 rounded-full border border-(--orb-ring) shadow-(--shadow-orb-inset)"
+        >
+        </div>
+      </div>
+      <div class="flex items-center justify-between text-[8px] font-bold tracking-[0.12em] text-(--mock-text)">
+        <span>FINTECH + ENGINEERING</span>
+        <span>SCROLL TO EXPLORE ↗</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style>
+  .hero-title {
+    font: 600 clamp(56px, 8vw, 112px) / 0.9 var(--font-heading);
+  }
+  .hero-mock-title {
+    font: 500 clamp(28px, 4vw, 52px) / 0.84 var(--font-heading);
+    letter-spacing: -0.07em;
+  }
+</style>
+
+<script>
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+        el.classList.remove("opacity-0", "translate-y-5.5")
+      })
+    })
+  })
+</script>

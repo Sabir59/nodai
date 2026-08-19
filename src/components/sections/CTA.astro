@@ -1,0 +1,38 @@
+---
+interface Props {
+  eyebrow?: string
+  heading?: string
+  ctaHref?: string
+  ctaLabel?: string
+}
+
+const {
+  eyebrow = "Building a fintech product?",
+  heading = "Let’s build it.",
+  ctaHref = "/apply",
+  ctaLabel = "Start a conversation →",
+} = Astro.props
+---
+
+<section
+  id="apply"
+  class="mx-[5vw] my-25 flex max-w-310 items-end justify-between gap-8.75 rounded-lg bg-primary px-[clamp(28px,7vw,95px)] py-17.5 text-primary-foreground max-[700px]:my-17.5 max-[700px]:block"
+>
+  <div>
+    <div class="font-heading text-[11px] font-bold tracking-[0.16em] uppercase">{eyebrow}</div>
+    <h2 class="cta-title mt-3 max-w-170">{heading}</h2>
+  </div>
+  <a
+    href={ctaHref}
+    class="inline-block rounded-full bg-background px-5.5 py-4 font-heading text-sm font-bold whitespace-nowrap text-foreground no-underline max-[700px]:mt-7.5"
+  >
+    {ctaLabel}
+  </a>
+</section>
+
+<style>
+  .cta-title {
+    font: 600 clamp(38px, 5vw, 68px) / 0.95 var(--font-heading);
+    letter-spacing: -0.07em;
+  }
+</style>

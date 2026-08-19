@@ -1,0 +1,63 @@
+---
+import BenefitCard from "./BenefitCard.astro"
+
+interface Benefit {
+  number: string
+  title: string
+  description: string
+  meta: string
+}
+
+interface Props {
+  eyebrow?: string
+  heading?: string
+  description?: string
+  items?: Benefit[]
+}
+
+const {
+  eyebrow = "What we build",
+  heading = "Built for finance. Engineered for trust.",
+  description = "A senior team of engineers and architects building mission-critical software for banks, fintechs, and capital markets.",
+  items = [
+    {
+      number: "01",
+      title: "Payments & core banking",
+      description: "Payment rails, core banking systems, and ledger infrastructure built for scale and regulatory compliance.",
+      meta: "Payments · Ledger · Compliance",
+    },
+    {
+      number: "02",
+      title: "Trading & investment platforms",
+      description: "Real-time trading systems, portfolio tools, and market-data infrastructure engineered for speed and reliability.",
+      meta: "Trading · Market data · Risk",
+    },
+    {
+      number: "03",
+      title: "Fintech product engineering",
+      description: "Full-stack fintech applications — wallets, dashboards, and APIs — built with bank-grade security from day one.",
+      meta: "APIs · Security · Cloud",
+    },
+  ],
+} = Astro.props
+---
+
+<section id="benefits" class="border-y border-border bg-card px-[5vw] py-25">
+  <div class="mx-auto mb-11.25 flex max-w-310 items-end justify-between gap-7.5 max-[760px]:block">
+    <div>
+      <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+      <h2 class="features-title mt-3.5 text-foreground">{heading}</h2>
+    </div>
+    <p class="max-w-72.5 text-sm leading-normal text-muted-foreground">{description}</p>
+  </div>
+  <div class="mx-auto grid max-w-310 grid-cols-3 gap-3.5 max-[760px]:grid-cols-1">
+    {items.map((item) => <BenefitCard {...item} />)}
+  </div>
+</section>
+
+<style>
+  .features-title {
+    font: 500 clamp(32px, 4vw, 54px) / 1 var(--font-heading);
+    letter-spacing: -0.06em;
+  }
+</style>

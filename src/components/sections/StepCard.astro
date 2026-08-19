@@ -1,0 +1,19 @@
+---
+interface Props {
+  number: string
+  title: string
+  description: string
+}
+
+const { number, title, description } = Astro.props
+---
+
+<article
+  class="min-h-52.5 border-r border-border pt-7 pr-6.25 pb-6.25 pl-0 not-first:pl-6.25 max-[760px]:border-r-0 max-[760px]:border-b max-[760px]:px-0 max-[760px]:py-6.25 max-[760px]:not-first:pl-0"
+>
+  <div class="font-heading text-[13px] font-medium tracking-widest text-primary">{number}</div>
+  <h3 class="mt-13.75 mb-2.5 font-heading text-[25px] font-medium tracking-[-0.04em] text-foreground max-[760px]:mt-7">
+    {title}
+  </h3>
+  <p class="max-w-62.5 text-sm leading-normal text-muted-foreground">{description}</p>
+</article>

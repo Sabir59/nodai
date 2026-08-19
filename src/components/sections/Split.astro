@@ -1,0 +1,58 @@
+---
+interface Props {
+  eyebrow?: string
+  heading?: string
+  description?: string
+  factOneLabel?: string
+  factOneValue?: string
+  factTwoLabel?: string
+  factTwoValue?: string
+  factThreeLabel?: string
+  factThreeValue?: string
+}
+
+const {
+  eyebrow = "Our approach",
+  heading = "Secure by design. Engineered to scale.",
+  description = "We do not bolt compliance on at the end. Security, architecture, and product happen together, so every platform is fast, auditable, and built to earn regulator and customer trust alike.",
+  factOneLabel = "Fintech platforms shipped",
+  factOneValue = "50+",
+  factTwoLabel = "Regulatory markets served",
+  factTwoValue = "12",
+  factThreeLabel = "Client retention",
+  factThreeValue = "98%",
+} = Astro.props
+
+const facts = [
+  { label: factOneLabel, value: factOneValue },
+  { label: factTwoLabel, value: factTwoValue },
+  { label: factThreeLabel, value: factThreeValue },
+]
+---
+
+<section
+  class="mx-auto grid max-w-310 grid-cols-[1.1fr_0.9fr] items-center gap-[10vw] px-[5vw] py-31.25 max-[760px]:grid-cols-1 max-[760px]:py-22.5"
+>
+  <div>
+    <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+    <h2 class="split-statement my-4 text-foreground">{heading}</h2>
+    <p class="max-w-125 leading-[1.6] text-muted-foreground">{description}</p>
+  </div>
+  <div class="border-t border-border">
+    {
+      facts.map((fact) => (
+        <div class="flex justify-between gap-5 border-b border-border py-4.5 text-sm">
+          <span class="text-muted-foreground">{fact.label}</span>
+          <span class="text-right font-bold">{fact.value}</span>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .split-statement {
+    font: 500 clamp(34px, 5vw, 65px) / 0.98 var(--font-heading);
+    letter-spacing: -0.07em;
+  }
+</style>

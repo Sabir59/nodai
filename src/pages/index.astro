@@ -1,17 +1,24 @@
 ---
 import Layout from "@/layouts/main.astro"
-import { Button } from "@/components/ui/button"
+import Header from "@/components/sections/Header.astro"
+import Hero from "@/components/sections/Hero.astro"
+import FeatureGrid from "@/components/sections/FeatureGrid.astro"
+import Portfolio from "@/components/sections/Portfolio.astro"
+import Split from "@/components/sections/Split.astro"
+import Steps from "@/components/sections/Steps.astro"
+import Quote from "@/components/sections/Quote.astro"
+import CTA from "@/components/sections/CTA.astro"
+import Footer from "@/components/sections/Footer.astro"
 ---
 
-<Layout>
-  <div class="flex min-h-svh p-6">
-    <div class="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-      <div>
-        <h1 class="font-medium">Project ready!</h1>
-        <p>You may now add components and start building.</p>
-        <p>We've already added the button component for you.</p>
-        <Button client:load className="mt-2">Button</Button>
-      </div>
-    </div>
-  </div>
+<Layout title="Nodai Studio — Fintech Software Development">
+  <Header />
+  <Hero />
+  <FeatureGrid />
+  <Portfolio />
+  <Split />
+  <Steps />
+  <Quote />
+  <CTA />
+  <Footer />
 </Layout>
