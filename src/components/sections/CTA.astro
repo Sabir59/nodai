@@ -1,4 +1,7 @@
 ---
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
 interface Props {
   eyebrow?: string
   heading?: string
@@ -24,7 +27,10 @@ const {
   </div>
   <a
     href={ctaHref}
-    class="inline-block rounded-full bg-background px-5.5 py-4 font-heading text-sm font-bold whitespace-nowrap text-foreground no-underline max-[700px]:mt-7.5"
+    class={cn(
+      buttonVariants({ variant: "outline" }),
+      "h-auto rounded-full border-transparent bg-background px-5.5 py-4 font-heading text-sm font-bold whitespace-nowrap text-foreground no-underline hover:bg-background hover:text-foreground max-[700px]:mt-7.5"
+    )}
   >
     {ctaLabel}
   </a>

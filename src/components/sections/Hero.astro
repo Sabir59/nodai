@@ -1,4 +1,7 @@
 ---
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
 interface Props {
   eyebrow?: string
   heading?: string
@@ -43,7 +46,10 @@ const {
     >
       <a
         href={primaryCtaHref}
-        class="rounded-full bg-primary px-5.5 py-3.75 font-heading text-sm font-bold text-primary-foreground no-underline transition-all duration-250 hover:-translate-y-0.75 hover:shadow-(--shadow-btn-lg)"
+        class={cn(
+          buttonVariants({ variant: "default" }),
+          "h-auto rounded-full px-5.5 py-3.75 font-heading text-sm font-bold no-underline transition-all duration-250 hover:-translate-y-0.75 hover:bg-primary hover:shadow-(--shadow-btn-lg)"
+        )}
       >
         {primaryCtaLabel}
       </a>

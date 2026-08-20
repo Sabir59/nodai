@@ -1,4 +1,6 @@
 ---
+import { Card } from "@/components/ui/card"
+
 interface Props {
   number: string
   category: string
@@ -12,8 +14,8 @@ interface Props {
 const { number, category, year, title, description, ctaHref, ctaLabel } = Astro.props
 ---
 
-<article
-  class="project-card group relative flex min-h-97.5 flex-col justify-between overflow-hidden rounded-lg border border-border bg-card p-6 transition duration-350 ease-out hover:-translate-y-1.5 hover:border-(--hover-project) max-[760px]:min-h-85"
+<Card
+  className="project-card group relative min-h-97.5 flex-col justify-between gap-0 rounded-lg border border-border bg-card p-6 ring-0 transition duration-350 ease-out hover:-translate-y-1.5 hover:border-(--hover-project) max-[760px]:min-h-85"
 >
   <div class="project-art absolute inset-0 bottom-[42%] overflow-hidden bg-(--art-bg)" aria-hidden="true"></div>
   <div class="absolute top-5.5 right-5.5 z-1 font-heading text-[10px] font-bold tracking-[0.14em] text-primary">
@@ -33,7 +35,7 @@ const { number, category, year, title, description, ctaHref, ctaLabel } = Astro.
       {ctaLabel}
     </a>
   </div>
-</article>
+</Card>
 
 <style>
   .project-art:before,
