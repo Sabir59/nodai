@@ -5,13 +5,19 @@ interface Props {
   title?: string
   description?: string
   siteName?: string
+  path?: string
+  ogType?: "website" | "article"
 }
 
 const {
   title = "Astro App",
   description = "Astro App",
   siteName = "Nodai Studio",
+  path,
+  ogType = "website",
 } = Astro.props
+
+const canonicalUrl = path ? new URL(path, Astro.site ?? Astro.url.origin) : undefined
 ---
 
 <html lang="en">
@@ -22,12 +28,14 @@ const {
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0a0b0d" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <title>{title}</title>
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />

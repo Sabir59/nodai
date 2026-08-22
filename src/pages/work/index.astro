@@ -1,0 +1,73 @@
+---
+import Layout from "@/layouts/main.astro"
+import Header from "@/components/sections/Header.astro"
+import Footer from "@/components/sections/Footer.astro"
+import ProjectCard from "@/components/sections/ProjectCard.astro"
+import RevealScript from "@/components/case-studies/shared/RevealScript.astro"
+import { caseStudies } from "@/data/projects"
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: caseStudies.map((project, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: project.title,
+    url: new URL(project.href, Astro.site).toString(),
+  })),
+}
+---
+
+<Layout
+  title="Work — Nodai Studio"
+  description="Case studies in design and engineering: how Nodai Studio partners on donation platforms, fintech products, and the production systems behind them."
+  path="/work"
+>
+  <Header navOneHref="/work" />
+
+  <header class="mx-auto max-w-310 px-[5vw] pt-19 pb-15 max-[820px]:pt-15">
+    <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">Selected work</div>
+    <h1
+      data-reveal
+      class="work-index-title max-w-175 pt-5 pb-6 tracking-[-0.06em] text-foreground opacity-0 translate-y-5.5 transition duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+    >
+      Case studies in design and engineering.
+    </h1>
+    <p
+      data-reveal
+      class="max-w-140 text-lg leading-[1.55] text-muted-foreground opacity-0 translate-y-5.5 transition-[opacity,transform] delay-100 duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+    >
+      Real engagements, not polished screenshots. Each case study walks through the product problem, the engineering
+      decisions, and what shipped.
+    </p>
+  </header>
+
+  <section class="px-[5vw] pb-28">
+    <div class="mx-auto grid max-w-310 grid-cols-2 gap-3.5 max-[760px]:grid-cols-1">
+      {
+        caseStudies.map((project) => (
+          <ProjectCard
+            number={project.number}
+            category={project.category}
+            year={project.year}
+            title={project.title}
+            description={project.summary}
+            ctaHref={project.href}
+            ctaLabel="View case study →"
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <Footer />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
+  <RevealScript />
+</Layout>
+
+<style>
+  .work-index-title {
+    font: 600 clamp(44px, 6.4vw, 88px) / 0.98 var(--font-heading);
+  }
+</style>

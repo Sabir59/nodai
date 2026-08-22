@@ -1,5 +1,6 @@
 ---
 import ProjectCard from "./ProjectCard.astro"
+import { caseStudies } from "@/data/projects"
 
 interface Project {
   number: string
@@ -16,54 +17,41 @@ interface Props {
   heading?: string
   description?: string
   items?: Project[]
+  viewAllHref?: string
+  viewAllLabel?: string
 }
 
 const {
   eyebrow = "Selected work",
   heading = "A few things<br />we made matter.",
-  description = "Digital products and brand experiences for teams moving culture forward.",
-  items = [
-    {
-      number: "01 / 03",
-      category: "Digital product",
-      year: "2025",
-      title: "Northstar",
-      description: "A sharper operating system for a global platform team.",
-      ctaHref: "#contact",
-      ctaLabel: "View case study →",
-    },
-    {
-      number: "02 / 03",
-      category: "Brand experience",
-      year: "2024",
-      title: "Meridian",
-      description: "A new digital home for a foundation backing brighter cities.",
-      ctaHref: "#contact",
-      ctaLabel: "View case study →",
-    },
-    {
-      number: "03 / 03",
-      category: "Commerce + motion",
-      year: "2024",
-      title: "Trade / Settle",
-      description: "An expressive commerce experience for a modern retail brand.",
-      ctaHref: "#contact",
-      ctaLabel: "View case study →",
-    },
-  ],
+  description = "Real engineering partnerships, not concept work.",
+  items = caseStudies.map(({ number, category, year, title, summary, href }) => ({
+    number,
+    category,
+    year,
+    title,
+    description: summary,
+    ctaHref: href,
+    ctaLabel: "View case study →",
+  })),
+  viewAllHref = "/work",
+  viewAllLabel = "View all work →",
 } = Astro.props
 ---
 
 <section id="work" class="border-b border-border bg-background px-[5vw] py-28 max-[760px]:py-22.5">
   <div class="mx-auto max-w-310">
-    <div class="mb-12 flex items-end justify-between gap-7.5 max-[760px]:block">
+    <div class="mb-12 flex items-end justify-between gap-7.5 max-[760px]:flex-col max-[760px]:items-start">
       <div>
         <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
         <h2 class="work-title mt-3.75 text-foreground" set:html={heading} />
       </div>
-      <p class="max-w-72.5 text-sm leading-[1.55] text-muted-foreground max-[760px]:mt-5.5">{description}</p>
+      <div class="flex flex-col items-end gap-3 max-[760px]:items-start">
+        <p class="max-w-72.5 text-sm leading-[1.55] text-muted-foreground">{description}</p>
+        <a href={viewAllHref} class="text-sm text-foreground underline-offset-[5px]">{viewAllLabel}</a>
+      </div>
     </div>
-    <div class="grid grid-cols-3 gap-3.5 max-[760px]:grid-cols-1">
+    <div class="grid grid-cols-2 gap-3.5 max-[760px]:grid-cols-1">
       {items.map((item) => <ProjectCard {...item} />)}
     </div>
   </div>

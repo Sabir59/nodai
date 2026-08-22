@@ -1,0 +1,33 @@
+---
+interface Props {
+  eyebrow: string
+  heading: string
+  description?: string
+  size?: "lg" | "md"
+}
+
+const { eyebrow, heading, description, size = "md" } = Astro.props
+---
+
+<div class="flex items-end justify-between gap-7.5 max-[760px]:flex-col max-[760px]:items-start">
+  <div class="flex flex-col gap-3.5">
+    <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+    <h2 class:list={["section-header-title", size, "text-foreground"]} set:html={heading} />
+  </div>
+  {
+    description && (
+      <p class="max-w-90 text-sm leading-[1.55] text-muted-foreground">{description}</p>
+    )
+  }
+</div>
+
+<style>
+  .section-header-title.lg {
+    font: 500 clamp(32px, 4.4vw, 52px) / 1.02 var(--font-heading);
+    letter-spacing: -0.06em;
+  }
+  .section-header-title.md {
+    font: 500 clamp(26px, 3.2vw, 38px) / 1.08 var(--font-heading);
+    letter-spacing: -0.05em;
+  }
+</style>

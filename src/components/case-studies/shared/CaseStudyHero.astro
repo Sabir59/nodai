@@ -1,0 +1,49 @@
+---
+interface MetaItem {
+  label: string
+  value: string
+}
+
+interface Props {
+  eyebrow: string
+  heading: string
+  description: string
+  meta: MetaItem[]
+}
+
+const { eyebrow, heading, description, meta } = Astro.props
+---
+
+<header class="mx-auto max-w-310 px-[5vw] pt-11 pb-17.5 max-[820px]:pb-13.75">
+  <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+  <h1
+    data-reveal
+    class="case-hero-title max-w-200 pt-5 pb-6.5 tracking-[-0.06em] text-foreground opacity-0 translate-y-5.5 transition duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+    set:html={heading}
+  />
+  <p
+    data-reveal
+    class="max-w-140 pb-9 text-lg leading-[1.55] text-muted-foreground opacity-0 translate-y-5.5 transition-[opacity,transform] delay-100 duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+  >
+    {description}
+  </p>
+  <dl
+    data-reveal
+    class="flex flex-wrap gap-x-9 gap-y-4 border-t border-border pt-6.5 opacity-0 translate-y-5.5 transition-[opacity,transform] delay-200 duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+  >
+    {
+      meta.map((item) => (
+        <div class="flex flex-col gap-1.5">
+          <dt class="text-[11px] tracking-[0.12em] text-muted-foreground uppercase">{item.label}</dt>
+          <dd class="text-sm font-medium text-foreground">{item.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</header>
+
+<style>
+  .case-hero-title {
+    font: 600 clamp(40px, 6.2vw, 80px) / 0.98 var(--font-heading);
+  }
+</style>

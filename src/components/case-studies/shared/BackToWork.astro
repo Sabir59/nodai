@@ -1,0 +1,18 @@
+---
+interface Props {
+  href?: string
+  label?: string
+}
+
+const { href = "/work", label = "All work" } = Astro.props
+---
+
+<div class="mx-auto max-w-310 px-[5vw] pt-8">
+  <a
+    href={href}
+    class="inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground no-underline transition-colors hover:text-foreground"
+  >
+    <span aria-hidden="true">←</span>
+    <span>{label}</span>
+  </a>
+</div>

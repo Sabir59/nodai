@@ -1,0 +1,204 @@
+---
+import Layout from "@/layouts/main.astro"
+import Header from "@/components/sections/Header.astro"
+import Footer from "@/components/sections/Footer.astro"
+import CTA from "@/components/sections/CTA.astro"
+import CaseStudyHero from "@/components/case-studies/shared/CaseStudyHero.astro"
+import BackToWork from "@/components/case-studies/shared/BackToWork.astro"
+import SectionHeader from "@/components/case-studies/shared/SectionHeader.astro"
+import FlowDiagram from "@/components/case-studies/shared/FlowDiagram.astro"
+import NextProjectCTA from "@/components/case-studies/shared/NextProjectCTA.astro"
+import RevealScript from "@/components/case-studies/shared/RevealScript.astro"
+
+const title = "MATW — Engineering a donation checkout | Nodai Studio"
+const description =
+  "How Nodai Studio's engineering work keeps a multi-provider donation checkout coherent, idempotent, and stable through a framework migration."
+
+const checkoutSteps = [
+  {
+    number: "01 / 06",
+    title: "Donor identity",
+    description:
+      "The donor's identity is established before payment starts, so a session can be resumed if they step away and come back.",
+  },
+  {
+    number: "02 / 06",
+    title: "Cart & session",
+    description:
+      "Donation amount, frequency, and campaign context are held in a session — the same one that later reconciles the payment outcome back to the right gift.",
+  },
+  {
+    number: "03 / 06",
+    title: "Provider selection",
+    description: "The donor picks a payment method. Behind that single choice sit three structurally different integrations.",
+    branches: [
+      { title: "Adyen", description: "Card payments via Adyen's Drop-in, including 3D Secure." },
+      { title: "PayPal", description: "A hosted flow for donors who'd rather not enter card details directly." },
+      { title: "Chargebee", description: "A hosted billing flow, primarily for recurring giving." },
+    ],
+  },
+  {
+    number: "04 / 06",
+    title: "Provider-specific state",
+    description:
+      "Adyen can return an action-required response mid-flow, most often a 3D Secure challenge. PayPal and Chargebee redirect off-site entirely. Each path has to land back in the same place.",
+  },
+  {
+    number: "05 / 06",
+    title: "Authentication & redirect handling",
+    description:
+      "3D Secure challenges and off-site redirects are treated as expected states, not edge cases — checkout waits for a definitive outcome instead of guessing from a timeout.",
+  },
+  {
+    number: "06 / 06",
+    title: "Completion",
+    description: "A finalized payment reconciles back to the donor's session and produces a receipt, regardless of which provider carried it.",
+  },
+]
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: "MATW — Engineering a donation checkout",
+  description,
+  about: "Donation platform payment orchestration and checkout reliability",
+  creator: { "@type": "Organization", name: "Nodai Studio" },
+}
+---
+
+<Layout title={title} description={description} path="/work/matw" ogType="article">
+  <Header />
+  <BackToWork />
+
+  <CaseStudyHero
+    eyebrow="Donation platform"
+    heading="Engineering a donation checkout that holds together under real-world payment complexity."
+    description="MATW runs a global giving platform where a single donation can end up authorized through any of three different payment providers. Our engineering work has focused on keeping that checkout coherent — accurate, resumable, and safe to retry — no matter which path a donation takes."
+    meta={[
+      { label: "Role", value: "Engineering partner" },
+      { label: "Status", value: "Ongoing" },
+      { label: "Focus", value: "Donation checkout & payments" },
+    ]}
+  />
+
+  <section class="border-b border-border px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-8">
+      <SectionHeader eyebrow="Context" heading="A donation is simple.<br />A donation checkout is not." size="lg" />
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        MATW needed a checkout that could accept a one-time or recurring gift through whichever payment method a
+        donor already trusted — card, PayPal, or a hosted billing provider — without asking the donor to think
+        about any of that complexity themselves. Underneath, three different payment providers each have their own
+        session lifecycle, their own redirect behavior, and their own way of saying "pending." Cloudflare Turnstile
+        sits in front of checkout to keep the flow usable for donors and expensive for bots.
+      </p>
+      <div class="grid grid-cols-3 gap-6 border-t border-border pt-8 max-[760px]:grid-cols-1">
+        {
+          [
+            { label: "Payment providers integrated", value: "3" },
+            { label: "Bot verification", value: "Cloudflare Turnstile" },
+            { label: "Checkout types", value: "One-time & recurring" },
+          ].map((fact) => (
+            <div class="flex flex-col gap-2">
+              <div class="text-[11px] tracking-[0.12em] text-muted-foreground uppercase">{fact.label}</div>
+              <div class="font-heading text-2xl font-medium text-foreground">{fact.value}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="flex flex-col gap-10 border-b border-border bg-card px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto max-w-310">
+      <SectionHeader eyebrow="Flow" heading="The checkout journey" size="lg" />
+    </div>
+    <FlowDiagram label="MATW donation checkout flow" steps={checkoutSteps} />
+  </section>
+
+  <section class="border-b border-border px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-6">
+      <SectionHeader eyebrow="Engineering complexity" heading="Orchestrating three payment providers" />
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        Each provider models "payment in progress" differently. Adyen's Drop-in keeps the donor on-page and hands
+        back a component-driven action when a challenge is needed. PayPal and Chargebee both take the donor
+        off-site and return them by redirect. A single checkout has to speak all three dialects without leaking
+        that complexity into the parts of the product that only care about one thing: did this donation succeed.
+      </p>
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        Every release is checked against a fixed set of payment scenarios — a normal card payment, a 3D Secure
+        challenge, a hosted-provider redirect, a pending outcome, and a retry — because assumptions about payment
+        state are exactly where checkouts quietly break.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-b border-border bg-card px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-6">
+      <SectionHeader eyebrow="Engineering complexity" heading="Making retries and duplicates safe" />
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        A donor who refreshes mid-checkout, or a component that re-renders and fires its effect twice, should never
+        produce two charges or two confirmation emails for one gift. The checkout coalesces duplicate finalize
+        calls into a single in-flight request, and keeps a short-lived record of already-finalized donations so a
+        retried confirmation is recognized and ignored rather than reprocessed.
+      </p>
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        The same discipline extends to analytics. A single successful donation fires conversion events across
+        several tools — GA4, Adobe Analytics, TikTok, Tapfiliate, AdRoll, PostHog — and double-firing any one of
+        them overstates results to a campaign that's already working. Each integration claims, commits, or releases
+        its own send behind a shared dedupe key, so one donation is one conversion, everywhere it's counted.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-b border-border px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-6">
+      <SectionHeader eyebrow="Engineering complexity" heading="A contract that survived a framework migration" />
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        Partway through this engagement, the frontend moved to a new framework. Rewriting a payment integration
+        mid-migration is exactly the kind of change that tends to reintroduce bugs already solved once.
+      </p>
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        It didn't, because the cart and payment-session contract underneath the UI never changed. The reference
+        implementation and the rebuilt frontend call the same session lifecycle and share the same data layer;
+        only the payment-provider components — the pieces tied to Adyen, PayPal, and Chargebee's own SDKs — were
+        rebuilt for the new framework. Keeping that boundary fixed meant the migration was a UI change, not a
+        payments rewrite.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-8">
+      <SectionHeader eyebrow="Where it stands" heading="Reliable checkout, not a finished product." />
+      <p class="max-w-160 text-base leading-[1.7] text-muted-foreground">
+        The donation checkout is live and handling real gifts across all three providers today. It keeps growing —
+        new campaigns, new currencies, new edge cases in how a provider reports a stuck payment. Our engineering
+        work on this project has been less about shipping one finished feature and more about keeping the checkout
+        trustworthy as everything around it keeps changing.
+      </p>
+      <div class="border-t border-border">
+        {
+          [
+            "Treat provider redirects as an expected state, not an edge case.",
+            "Idempotency has to cover analytics, not just payment capture.",
+            "A stable data contract is what makes a framework migration safe.",
+          ].map((lesson) => (
+            <div class="flex justify-between gap-5 border-b border-border py-4.5 text-sm">
+              <span class="shrink-0 text-muted-foreground">Lesson</span>
+              <span class="max-w-140 text-right font-medium text-foreground">{lesson}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <NextProjectCTA heading="TeekPay →" ctaHref="/work/teekpay" ctaLabel="View case study" />
+
+  <CTA />
+
+  <Footer />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  <RevealScript />
+</Layout>

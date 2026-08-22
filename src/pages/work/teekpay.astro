@@ -1,0 +1,142 @@
+---
+import Layout from "@/layouts/main.astro"
+import Header from "@/components/sections/Header.astro"
+import Footer from "@/components/sections/Footer.astro"
+import CTA from "@/components/sections/CTA.astro"
+import CaseStudyHero from "@/components/case-studies/shared/CaseStudyHero.astro"
+import BackToWork from "@/components/case-studies/shared/BackToWork.astro"
+import SectionHeader from "@/components/case-studies/shared/SectionHeader.astro"
+import FlowDiagram from "@/components/case-studies/shared/FlowDiagram.astro"
+import NextProjectCTA from "@/components/case-studies/shared/NextProjectCTA.astro"
+import RevealScript from "@/components/case-studies/shared/RevealScript.astro"
+
+const title = "TeekPay — Engineering principles for a payments product | Nodai Studio"
+const description =
+  "The engineering principles Nodai Studio brings to TeekPay, an early-stage payments product: honest transaction states and security-conscious UX."
+
+const lifecycleSteps = [
+  {
+    number: "01 / 04",
+    title: "Created",
+    description:
+      "A transaction is created and given an identity before any money moves, so every later step has something concrete to reconcile against.",
+  },
+  {
+    number: "02 / 04",
+    title: "Authorized",
+    description: "Authorization confirms the payment method and amount are valid, without assuming the funds have settled yet.",
+  },
+  {
+    number: "03 / 04",
+    title: "Settled or failed",
+    description: "The transaction resolves — but only ever explicitly. One that hasn't heard back is left pending, never guessed at.",
+  },
+  {
+    number: "04 / 04",
+    title: "Reconciled",
+    description: "The outcome is reconciled against the originating request, so the record a user sees always matches what happened.",
+  },
+]
+
+const challenges = [
+  {
+    title: "State & reconciliation",
+    description:
+      "Every transaction needs a single source of truth for its current state, and a way to reconcile that state against whatever a payment network reports asynchronously — sometimes seconds later. Treating \"unknown\" as a real, displayable state, rather than forcing every transaction into success or failure, is what keeps a payments UI honest.",
+  },
+  {
+    title: "Security-conscious UX",
+    description:
+      "Verifying a user or a device shouldn't cost the product a checkout that feels hostile. The best security-conscious flows are the ones a legitimate user barely notices — friction shows up for risk, not by default.",
+  },
+]
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: "TeekPay — Engineering principles for a payments product",
+  description,
+  about: "Payments product engineering: transaction state modeling and security-conscious UX",
+  creator: { "@type": "Organization", name: "Nodai Studio" },
+}
+---
+
+<Layout title={title} description={description} path="/work/teekpay" ogType="article">
+  <Header />
+  <BackToWork />
+
+  <CaseStudyHero
+    eyebrow="Fintech product"
+    heading="A new payments product, and the engineering principles guiding it."
+    description="TeekPay is an early-stage payments product. Rather than present finished specifics before they exist, this case study lays out the engineering principles we bring to any payments product: the transaction states that have to be modeled honestly, and the UX decisions that keep a financial product trustworthy under real conditions."
+    meta={[
+      { label: "Role", value: "Engineering partner" },
+      { label: "Status", value: "In progress" },
+      { label: "Focus", value: "Payments product engineering" },
+    ]}
+  />
+
+  <section class="border-b border-border px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-160 flex-col gap-6">
+      <SectionHeader eyebrow="Context" heading="Payments products fail quietly, not loudly." size="lg" />
+      <p class="text-base leading-[1.7] text-muted-foreground">
+        Most payment products don't break in an obvious way. They break in the space between states — a
+        transaction that's neither confirmed nor failed, a retry that becomes a duplicate, a status that's
+        accurate in the backend but stale on screen. Getting a payments product right is mostly about refusing to
+        let that space exist.
+      </p>
+      <p class="text-base leading-[1.7] text-muted-foreground">
+        That shapes how we approach a product like TeekPay from the start: model every transaction state
+        explicitly, treat provider and network delays as a normal part of the flow rather than an exception, and
+        build the interface around what's actually known at each moment — not what's assumed.
+      </p>
+    </div>
+  </section>
+
+  <section class="flex flex-col gap-8 border-b border-border bg-card px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-4">
+      <SectionHeader eyebrow="Illustrative flow" heading="A transaction's lifecycle" size="lg" />
+      <p class="max-w-160 text-[13px] leading-normal text-muted-foreground">
+        The stages below reflect the kind of lifecycle most payment transactions move through — a general model,
+        not a disclosure of TeekPay's specific implementation.
+      </p>
+    </div>
+    <FlowDiagram label="Illustrative payment transaction lifecycle" steps={lifecycleSteps} />
+  </section>
+
+  <section class="border-b border-border px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-310 flex-col gap-10">
+      <SectionHeader eyebrow="Engineering principles" heading="What we're building around" />
+      <div class="grid grid-cols-2 gap-3.5 max-[760px]:grid-cols-1">
+        {
+          challenges.map((item) => (
+            <div class="flex flex-col gap-3 rounded-lg border border-border bg-card p-7">
+              <h3 class="font-heading text-xl font-medium tracking-[-0.03em] text-foreground">{item.title}</h3>
+              <p class="text-sm leading-[1.55] text-muted-foreground">{item.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="px-[5vw] py-20 max-[760px]:py-14">
+    <div class="mx-auto flex max-w-160 flex-col gap-6">
+      <SectionHeader eyebrow="What's next" heading="This case study will grow with the product." />
+      <p class="text-base leading-[1.7] text-muted-foreground">
+        TeekPay is still early. As real features ship, this page will be replaced with the specifics — what we
+        built, the decisions we made, and what we'd do differently — the same way our MATW case study is written.
+        For now, this is the thinking we bring to the work.
+      </p>
+    </div>
+  </section>
+
+  <NextProjectCTA heading="MATW →" ctaHref="/work/matw" ctaLabel="View case study" />
+
+  <CTA />
+
+  <Footer />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  <RevealScript />
+</Layout>

@@ -1,0 +1,46 @@
+---
+interface Branch {
+  title: string
+  description: string
+}
+
+interface FlowStep {
+  number: string
+  title: string
+  description: string
+  branches?: Branch[]
+}
+
+interface Props {
+  label: string
+  steps: FlowStep[]
+}
+
+const { label, steps } = Astro.props
+---
+
+<ol aria-label={label} class="mx-auto flex max-w-310 flex-col border-t border-border">
+  {
+    steps.map((step) => (
+      <li class="flex items-start gap-9 border-b border-border py-7 max-[640px]:flex-col max-[640px]:gap-3">
+        <div class="w-16 shrink-0 font-heading text-sm font-medium tracking-widest text-primary max-[640px]:w-auto">
+          {step.number}
+        </div>
+        <div class="flex flex-1 flex-col gap-3">
+          <h3 class="font-heading text-xl font-medium tracking-[-0.03em] text-foreground">{step.title}</h3>
+          <p class="max-w-150 text-sm leading-[1.55] text-muted-foreground">{step.description}</p>
+          {step.branches && (
+            <div class="grid grid-cols-3 gap-3 max-[600px]:grid-cols-1">
+              {step.branches.map((branch) => (
+                <div class="flex flex-col gap-1.5 rounded-lg border border-border bg-card p-4">
+                  <div class="font-heading text-sm font-medium text-foreground">{branch.title}</div>
+                  <p class="text-[13px] leading-normal text-muted-foreground">{branch.description}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ol>

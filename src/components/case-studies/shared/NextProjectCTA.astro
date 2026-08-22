@@ -1,0 +1,40 @@
+---
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
+interface Props {
+  eyebrow?: string
+  heading: string
+  ctaHref: string
+  ctaLabel: string
+}
+
+const { eyebrow = "Next project", heading, ctaHref, ctaLabel } = Astro.props
+---
+
+<section class="border-b border-border px-[5vw] py-17.5 max-[700px]:py-12.5">
+  <a
+    href={ctaHref}
+    class="group mx-auto flex max-w-310 items-end justify-between gap-8.75 rounded-lg border border-border bg-card px-[clamp(28px,7vw,95px)] py-17.5 no-underline transition-colors duration-300 hover:border-(--hover-project) max-[700px]:flex-col max-[700px]:items-start"
+  >
+    <div class="flex flex-col gap-3">
+      <div class="font-heading text-[11px] font-bold tracking-[0.16em] text-primary uppercase">{eyebrow}</div>
+      <h2 class="next-project-title max-w-170 text-foreground">{heading}</h2>
+    </div>
+    <span
+      class={cn(
+        buttonVariants({ variant: "default" }),
+        "h-auto shrink-0 rounded-full px-5.5 py-4 font-heading text-sm font-bold whitespace-nowrap transition-transform duration-300 group-hover:translate-x-1"
+      )}
+    >
+      {ctaLabel}
+    </span>
+  </a>
+</section>
+
+<style>
+  .next-project-title {
+    font: 600 clamp(34px, 4.6vw, 58px) / 0.98 var(--font-heading);
+    letter-spacing: -0.06em;
+  }
+</style>
